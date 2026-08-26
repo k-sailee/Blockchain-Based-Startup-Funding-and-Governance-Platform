@@ -1,0 +1,62 @@
+# ==============================
+# Node.js dependencies
+# ==============================
+node_modules/
+frontend/node_modules/
+
+# ==============================
+# Environment / secrets
+# ==============================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ==============================
+# Hardhat generated files
+# ==============================
+cache/
+artifacts/
+
+# ==============================
+# Coverage reports
+# ==============================
+coverage/
+
+# ==============================
+# Frontend build files
+# ==============================
+frontend/dist/
+frontend/.vite/
+
+# ==============================
+# Logs
+# ==============================
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ==============================
+# OS generated files
+# ==============================
+.DS_Store
+Thumbs.db
+
+# ==============================
+# VS Code
+# ==============================
+.vscode/
+
+# ==============================
+# Hardhat Ignition generated deployments
+# ==============================
+ignition/deployments/
+
+# ==============================
+# Temporary files
+# ==============================
+*.tmp
+*.temp

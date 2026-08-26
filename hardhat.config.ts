@@ -1,0 +1,52 @@
+import hardhatToolboxMochaEthersPlugin from "@nomicfoundation/hardhat-toolbox-mocha-ethers";
+import { configVariable, defineConfig } from "hardhat/config";
+
+export default defineConfig({
+  plugins: [hardhatToolboxMochaEthersPlugin],
+  solidity: {
+    profiles: {
+      default: {
+  version: "0.8.28",
+  settings: {
+    evmVersion: "paris",
+  },
+},
+      production: {
+        version: "0.8.28",
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 200,
+          },
+        },
+      },
+    },
+  },
+  networks: {
+  hardhatMainnet: {
+    type: "edr-simulated",
+    chainType: "l1",
+  },
+
+  hardhatOp: {
+    type: "edr-simulated",
+    chainType: "op",
+  },
+
+  ganache: {
+    type: "http",
+    chainType: "l1",
+    url: "http://127.0.0.1:7545",
+    accounts: [
+      "0xeba79e1edaf8981ec476ea0319d509b18cbc9554d72ae54648bdc85d95663eea"
+    ],
+  },
+
+  sepolia: {
+    type: "http",
+    chainType: "l1",
+    url: configVariable("SEPOLIA_RPC_URL"),
+    accounts: [configVariable("SEPOLIA_PRIVATE_KEY")],
+  },
+},
+});
