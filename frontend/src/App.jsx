@@ -106,14 +106,18 @@ function App() {
         </div>
 
 
-        <button
-          className="connect-btn"
-          onClick={connectWallet}
-        >
-          {account
-            ? shortenAddress(account)
-            : "Connect MetaMask"}
-        </button>
+       <div style={{ display: "flex", gap: "10px" }}>
+  <button
+    className="connect-btn"
+    onClick={connectWallet}
+  >
+    {account
+      ? shortenAddress(account)
+      : "MetaMask"}
+  </button>
+  <appkit-button />
+
+</div>
 
       </nav>
 
@@ -147,16 +151,17 @@ function App() {
             </p>
 
 
-            {!account && (
-
-              <button
-                className="hero-btn"
-                onClick={connectWallet}
-              >
-                Connect Wallet →
-              </button>
-
-            )}
+           {!account && (
+  <div style={{ display: "flex", gap: "12px" }}>
+    <button
+      className="hero-btn"
+      onClick={connectWallet}
+    >
+      MetaMask
+    </button>
+    <appkit-button />
+  </div>
+)}
 
 
             {account && (

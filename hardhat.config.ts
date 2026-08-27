@@ -38,7 +38,7 @@ export default defineConfig({
     chainType: "l1",
     url: "http://127.0.0.1:7545",
     accounts: [
-      "0xeba79e1edaf8981ec476ea0319d509b18cbc9554d72ae54648bdc85d95663eea"
+      "0xa47f7c547a0f61101426e12ac1fd5acb03cc3127b9bce4df98a6651a4e1fb619"
     ],
   },
 
