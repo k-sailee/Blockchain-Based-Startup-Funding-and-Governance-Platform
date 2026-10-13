@@ -10,13 +10,33 @@ import * as Contracts from "./index.js";
 
 declare module "@nomicfoundation/hardhat-ethers/types" {
   interface HardhatEthersHelpers extends HardhatEthersHelpersBase {
-  getContractFactory(name: 'StartupFunding', signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.StartupFunding__factory>
+  getContractFactory(name: 'IERC20', signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.IERC20__factory>
+getContractFactory(name: 'SimpleYieldFarm', signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.SimpleYieldFarm__factory>
+getContractFactory(name: 'IERC20', signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.IERC20__factory>
+getContractFactory(name: 'SimpleStaking', signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.SimpleStaking__factory>
+getContractFactory(name: 'MockERC20', signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.MockERC20__factory>
+getContractFactory(name: 'StartupFunding', signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.StartupFunding__factory>
 
-  getContractAt(name: 'StartupFunding', address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.StartupFunding>
+  getContractAt(name: 'IERC20', address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IERC20>
+getContractAt(name: 'SimpleYieldFarm', address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.SimpleYieldFarm>
+getContractAt(name: 'IERC20', address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IERC20>
+getContractAt(name: 'SimpleStaking', address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.SimpleStaking>
+getContractAt(name: 'MockERC20', address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.MockERC20>
+getContractAt(name: 'StartupFunding', address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.StartupFunding>
 
-  deployContract(name: 'StartupFunding', signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.StartupFunding>
+  deployContract(name: 'IERC20', signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC20>
+deployContract(name: 'SimpleYieldFarm', signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.SimpleYieldFarm>
+deployContract(name: 'IERC20', signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC20>
+deployContract(name: 'SimpleStaking', signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.SimpleStaking>
+deployContract(name: 'MockERC20', signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.MockERC20>
+deployContract(name: 'StartupFunding', signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.StartupFunding>
 
-  deployContract(name: 'StartupFunding', args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.StartupFunding>
+  deployContract(name: 'IERC20', args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC20>
+deployContract(name: 'SimpleYieldFarm', args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.SimpleYieldFarm>
+deployContract(name: 'IERC20', args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC20>
+deployContract(name: 'SimpleStaking', args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.SimpleStaking>
+deployContract(name: 'MockERC20', args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.MockERC20>
+deployContract(name: 'StartupFunding', args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.StartupFunding>
 
     // default types
     getContractFactory(

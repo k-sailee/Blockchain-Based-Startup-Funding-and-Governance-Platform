@@ -11,11 +11,14 @@ import {
   CONTRACT_ABI,
 } from "../contractConfig";
 
+import StakingPanel from "../components/StakingPanel";
+import YieldFarmPanel from "../components/YieldFarmPanel";
 import "../index.css";
 
 function InvestorDashboard({ account, onBack }) {
   const [startups, setStartups] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("startups");
 
   const [investmentAmounts, setInvestmentAmounts] =
     useState({});
@@ -341,9 +344,35 @@ function InvestorDashboard({ account, onBack }) {
         )}
 
 
-        {/* Startups */}
+        {/* Sub Navigation */}
+        <div className="dashboard-subnav">
+          <button
+            className={`subnav-btn ${activeTab === "startups" ? "active" : ""}`}
+            onClick={() => setActiveTab("startups")}
+          >
+            ◈ Startups Directory
+          </button>
+          <button
+            className={`subnav-btn ${activeTab === "yield-farm" ? "active" : ""}`}
+            onClick={() => setActiveTab("yield-farm")}
+          >
+            🌾 Yield Farming (DeFi Part 1)
+          </button>
+          <button
+            className={`subnav-btn ${activeTab === "staking" ? "active" : ""}`}
+            onClick={() => setActiveTab("staking")}
+          >
+            ⚡ Protocol Staking (DeFi Part 2)
+          </button>
+        </div>
 
-        <section className="my-startups">
+        {activeTab === "yield-farm" ? (
+          <YieldFarmPanel account={account} />
+        ) : activeTab === "staking" ? (
+          <StakingPanel account={account} />
+        ) : (
+          /* Startups */
+          <section className="my-startups">
 
           <div className="section-title">
 
@@ -686,6 +715,7 @@ function InvestorDashboard({ account, onBack }) {
           )}
 
         </section>
+        )}
 
       </main>
 
