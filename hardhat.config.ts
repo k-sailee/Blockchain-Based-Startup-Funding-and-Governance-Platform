@@ -34,13 +34,13 @@ export default defineConfig({
   },
 
   ganache: {
-  type: "http",
-  chainType: "l1",
-  url: "http://127.0.0.1:7545",
-  accounts: [
-    "0x94f1bd2634b82458be816d47c2a394974313ba653adf0ae0f67456735f8874cb"
-  ],
-},
+    type: "http",
+    chainType: "l1",
+    url: "http://127.0.0.1:7545",
+    accounts: [
+      "0x1b71111a7891bab3c678188644ac96b0ba1fd7f632d1036e7febf431f3182bbb"
+    ],
+  },
 
   sepolia: {
     type: "http",

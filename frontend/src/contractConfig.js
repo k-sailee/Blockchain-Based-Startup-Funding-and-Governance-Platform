@@ -3,7 +3,8 @@ import SimpleStaking from "./contracts/SimpleStaking.json";
 import MockERC20 from "./contracts/MockERC20.json";
 
 // Startup Funding contract (existing)
-export const CONTRACT_ADDRESS = "0xB1609949297FdD431aC5a7cBF73e33BAdC42dD80";
+export const CONTRACT_ADDRESS =
+  "0xdc5B285ca73497Aa436008326679441DCC74Eb9C";
 export const CONTRACT_ABI = StartupFunding.abi;
 
 // Part 2: Staking and Token contracts

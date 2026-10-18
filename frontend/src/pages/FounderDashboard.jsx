@@ -13,9 +13,10 @@ import {
 
 import "../index.css";
 
-function FounderDashboard({ account, onBack }) {
+function FounderDashboard({ account, onBack, onConnect }) {
   const [startups, setStartups] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [otherStartupCount, setOtherStartupCount] = useState(0);
 
   const [showCreateForm, setShowCreateForm] = useState(false);
 
@@ -54,6 +55,8 @@ function FounderDashboard({ account, onBack }) {
 
   async function loadStartups() {
     if (!window.ethereum || !account) {
+      setStartups([]);
+      setOtherStartupCount(0);
       setLoading(false);
       return;
     }
@@ -74,6 +77,7 @@ function FounderDashboard({ account, onBack }) {
       const count = await contract.startupCount();
 
       const loadedStartups = [];
+      let startupsOwnedByOtherWallets = 0;
 
       for (let i = 1; i <= Number(count); i++) {
         const startup = await contract.getStartup(i);
@@ -85,6 +89,7 @@ function FounderDashboard({ account, onBack }) {
           founder.toLowerCase() !==
           account.toLowerCase()
         ) {
+          startupsOwnedByOtherWallets++;
           continue;
         }
 
@@ -122,6 +127,7 @@ function FounderDashboard({ account, onBack }) {
       }
 
       setStartups(loadedStartups);
+      setOtherStartupCount(startupsOwnedByOtherWallets);
     } catch (error) {
       console.error(
         "Error loading startups:",
@@ -261,9 +267,11 @@ function FounderDashboard({ account, onBack }) {
 
         </div>
 
-        <div className="wallet-display">
-          {shortenAddress(account)}
-        </div>
+        <button className="wallet-display" onClick={onConnect}>
+          {account
+            ? shortenAddress(account)
+            : "Connect Wallet"}
+        </button>
 
       </nav>
 
@@ -336,8 +344,8 @@ function FounderDashboard({ account, onBack }) {
                 </h2>
 
                 <p>
-                  Register your startup on the
-                  blockchain.
+                  Add your idea, set a funding target,
+                  and start raising funds on-chain.
                 </p>
 
               </div>
@@ -359,12 +367,13 @@ function FounderDashboard({ account, onBack }) {
             <div className="form-group">
 
               <label>
-                Startup Name
+                Startup Name <span className="required-mark">*</span>
               </label>
 
               <input
                 type="text"
                 placeholder="Enter startup name"
+                maxLength="80"
                 value={name}
                 onChange={(e) =>
                   setName(e.target.value)
@@ -379,11 +388,12 @@ function FounderDashboard({ account, onBack }) {
             <div className="form-group">
 
               <label>
-                Description
+                Description <span className="required-mark">*</span>
               </label>
 
               <textarea
                 placeholder="Describe your startup idea..."
+                maxLength="500"
                 value={description}
                 onChange={(e) =>
                   setDescription(
@@ -400,7 +410,7 @@ function FounderDashboard({ account, onBack }) {
             <div className="form-group">
 
               <label>
-                Funding Goal
+                Funding Goal <span className="required-mark">*</span>
               </label>
 
               <div className="eth-input">
@@ -409,7 +419,7 @@ function FounderDashboard({ account, onBack }) {
                   type="number"
                   min="0"
                   step="0.01"
-                  placeholder="Example: 10"
+                  placeholder="0.00"
                   value={fundingGoal}
                   onChange={(e) =>
                     setFundingGoal(
@@ -504,8 +514,9 @@ function FounderDashboard({ account, onBack }) {
               </h3>
 
               <p>
-                Create your first startup and
-                start raising funds from investors.
+                {otherStartupCount > 0
+                  ? "Startups exist on the platform, but none belong to this connected wallet. Switch to the wallet that created your startup to see it here."
+                  : "Create your first startup and start raising funds from investors."}
               </p>
 
               <button

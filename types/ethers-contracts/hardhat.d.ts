@@ -10,33 +10,69 @@ import * as Contracts from "./index.js";
 
 declare module "@nomicfoundation/hardhat-ethers/types" {
   interface HardhatEthersHelpers extends HardhatEthersHelpersBase {
-  getContractFactory(name: 'IERC20', signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.IERC20__factory>
-getContractFactory(name: 'SimpleYieldFarm', signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.SimpleYieldFarm__factory>
+  getContractFactory(name: 'AMMPool', signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.AMMPool__factory>
+getContractFactory(name: 'InvestorVault', signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.InvestorVault__factory>
+getContractFactory(name: 'MockERC20', signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.MockERC20__factory>
+getContractFactory(name: 'MockETHUSDOracle', signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.MockETHUSDOracle__factory>
+getContractFactory(name: 'MockUSDC', signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.MockUSDC__factory>
 getContractFactory(name: 'IERC20', signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.IERC20__factory>
 getContractFactory(name: 'SimpleStaking', signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.SimpleStaking__factory>
-getContractFactory(name: 'MockERC20', signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.MockERC20__factory>
+getContractFactory(name: 'IPriceFeed', signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.IPriceFeed__factory>
+getContractFactory(name: 'SafeOracleReader', signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.SafeOracleReader__factory>
+getContractFactory(name: 'MockToken', signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.MockToken__factory>
 getContractFactory(name: 'StartupFunding', signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.StartupFunding__factory>
+getContractFactory(name: 'WETH', signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.WETH__factory>
+getContractFactory(name: 'WETH9', signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.WETH9__factory>
+getContractFactory(name: 'IERC20', signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.IERC20__factory>
+getContractFactory(name: 'SimpleYieldFarm', signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.SimpleYieldFarm__factory>
 
-  getContractAt(name: 'IERC20', address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IERC20>
-getContractAt(name: 'SimpleYieldFarm', address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.SimpleYieldFarm>
+  getContractAt(name: 'AMMPool', address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.AMMPool>
+getContractAt(name: 'InvestorVault', address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.InvestorVault>
+getContractAt(name: 'MockERC20', address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.MockERC20>
+getContractAt(name: 'MockETHUSDOracle', address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.MockETHUSDOracle>
+getContractAt(name: 'MockUSDC', address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.MockUSDC>
 getContractAt(name: 'IERC20', address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IERC20>
 getContractAt(name: 'SimpleStaking', address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.SimpleStaking>
-getContractAt(name: 'MockERC20', address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.MockERC20>
+getContractAt(name: 'IPriceFeed', address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IPriceFeed>
+getContractAt(name: 'SafeOracleReader', address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.SafeOracleReader>
+getContractAt(name: 'MockToken', address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.MockToken>
 getContractAt(name: 'StartupFunding', address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.StartupFunding>
+getContractAt(name: 'WETH', address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.WETH>
+getContractAt(name: 'WETH9', address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.WETH9>
+getContractAt(name: 'IERC20', address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.IERC20>
+getContractAt(name: 'SimpleYieldFarm', address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.SimpleYieldFarm>
 
-  deployContract(name: 'IERC20', signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC20>
-deployContract(name: 'SimpleYieldFarm', signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.SimpleYieldFarm>
+  deployContract(name: 'AMMPool', signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.AMMPool>
+deployContract(name: 'InvestorVault', signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.InvestorVault>
+deployContract(name: 'MockERC20', signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.MockERC20>
+deployContract(name: 'MockETHUSDOracle', signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.MockETHUSDOracle>
+deployContract(name: 'MockUSDC', signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.MockUSDC>
 deployContract(name: 'IERC20', signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC20>
 deployContract(name: 'SimpleStaking', signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.SimpleStaking>
-deployContract(name: 'MockERC20', signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.MockERC20>
+deployContract(name: 'IPriceFeed', signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IPriceFeed>
+deployContract(name: 'SafeOracleReader', signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.SafeOracleReader>
+deployContract(name: 'MockToken', signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.MockToken>
 deployContract(name: 'StartupFunding', signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.StartupFunding>
+deployContract(name: 'WETH', signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.WETH>
+deployContract(name: 'WETH9', signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.WETH9>
+deployContract(name: 'IERC20', signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC20>
+deployContract(name: 'SimpleYieldFarm', signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.SimpleYieldFarm>
 
-  deployContract(name: 'IERC20', args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC20>
-deployContract(name: 'SimpleYieldFarm', args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.SimpleYieldFarm>
+  deployContract(name: 'AMMPool', args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.AMMPool>
+deployContract(name: 'InvestorVault', args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.InvestorVault>
+deployContract(name: 'MockERC20', args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.MockERC20>
+deployContract(name: 'MockETHUSDOracle', args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.MockETHUSDOracle>
+deployContract(name: 'MockUSDC', args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.MockUSDC>
 deployContract(name: 'IERC20', args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC20>
 deployContract(name: 'SimpleStaking', args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.SimpleStaking>
-deployContract(name: 'MockERC20', args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.MockERC20>
+deployContract(name: 'IPriceFeed', args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IPriceFeed>
+deployContract(name: 'SafeOracleReader', args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.SafeOracleReader>
+deployContract(name: 'MockToken', args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.MockToken>
 deployContract(name: 'StartupFunding', args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.StartupFunding>
+deployContract(name: 'WETH', args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.WETH>
+deployContract(name: 'WETH9', args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.WETH9>
+deployContract(name: 'IERC20', args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.IERC20>
+deployContract(name: 'SimpleYieldFarm', args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.SimpleYieldFarm>
 
     // default types
     getContractFactory(

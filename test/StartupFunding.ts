@@ -5,7 +5,7 @@ describe("StartupFunding", function () {
 
   async function deployContract() {
 
-    const { ethers } = await network.connect();
+    const { ethers } = await network.create();
 
     const [founder, investor1, investor2] =
       await ethers.getSigners();

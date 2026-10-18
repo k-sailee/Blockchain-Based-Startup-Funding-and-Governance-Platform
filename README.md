@@ -1,4 +1,4 @@
-# Blockchain-Based Startup Funding and Governance Platform
+﻿# Blockchain-Based Startup Funding and Governance Platform
 
 A decentralized Web3 platform enabling startup crowdfunding, DAO-based governance, and simulated decentralized finance (DeFi) mechanisms including **Protocol Token Staking** and **LP Token Yield Farming**.
 
@@ -214,3 +214,83 @@ This script exercises:
 14. Verifying final wallet balances
 15. Confirming user's staked balance and pending rewards are 0
 16. Confirming the farm retains its remaining reward pool
+
+
+## Local DEX and Vault Lab
+
+
+# StartFund
+
+StartFund is a local Ganache demonstration of startup crowdfunding and an
+ERC-4626 investor vault. Founders raise ETH through `StartupFunding`; vault
+investors deposit local `sfUSD` and receive `sfVS` shares.
+
+DEX Labs adds a local-only `WETH9` wrapper, six-decimal `MockUSDC`,
+constant-product `AMMPool`, and freshness-checked ETH/USD oracle. The frontend
+exposes swap, liquidity, and oracle lab cards without embedding private keys.
+
+## Run locally
+
+1. Start Ganache at `http://127.0.0.1:7545` with chain ID `1337`.
+2. Deploy the contracts:
+
+   ```powershell
+   npx hardhat run scripts/deploy.ts --network ganache
+   npx hardhat run scripts/deployVault.ts --network ganache
+   npx hardhat run scripts/deployDEX.ts --network ganache
+   ```
+
+3. Copy the printed addresses (the DEX script also writes
+   `frontend/src/dexConfig.js`) into
+   [contractConfig.js](./frontend/src/contractConfig.js) and
+   [vaultConfig.js](./frontend/src/vaultConfig.js) if Ganache was reset.
+4. Start the frontend:
+
+   ```powershell
+   Set-Location .\frontend
+   npm run dev
+   ```
+
+The current verified local deployment is:
+
+- `StartupFunding`: `0x811C1540CE116D7E694Bc0e5298e746d6b3456e6`
+- `MockToken`: `0xca6bd5EEA62b2C06bdcF06D5cc4DC47473a09d7a`
+- `InvestorVault`: `0x517aF3df34C30037928c6f1d198e776154F74A34`
+- `WETH9`: `0xdA69F6797d2AF2F685DDF30eB6a45aca22252D69`
+- `MockUSDC`: `0x031ae085FfFC235a37Dc60961764E64CC0bb1A65`
+- `AMMPool`: `0x398b9454CbeCfA2197d207eC0fa6E1c8B2779db9`
+- `MockETHUSDOracle`: `0x73E94C3620f704351e4f059182b2474fA187455C`
+- `SafeOracleReader`: `0x261Ab11ca5F6FFB1eD09C85f08B9307b678faA2e`
+
+These addresses are valid only while this Ganache state remains unchanged.
+Resetting Ganache erases the contracts and account state, so redeploy and
+update the frontend addresses afterward.
+
+`deployDEX.ts` writes the DEX addresses directly to
+`frontend/src/dexConfig.js`. The DEX tokens are local test assets and the
+oracle is a local simulation, not a real USDC token or Chainlink feed.
+
+## Local sfUSD distribution
+
+The deployer initially owns one million test tokens. To transfer some to a
+Ganache account without putting private keys in the frontend:
+
+```powershell
+$env:MOCK_TOKEN_ADDRESS="0xca6bd5EEA62b2C06bdcF06D5cc4DC47473a09d7a"
+npx hardhat run scripts/distributeMockToken.ts --network ganache -- 0xRECIPIENT 1000
+```
+
+## Verification
+
+```powershell
+npx hardhat build
+npx hardhat test mocha
+Set-Location .\frontend
+npm run build
+```
+
+The project intentionally stays local. No public testnet or mainnet deployment
+is part of this demonstration. The current safe scope keeps direct ETH startup
+funding separate from the sfUSD vault. A startup investment/return adapter is
+not enabled, because moving sfUSD out of the vault would require additional
+asset-liability accounting and authorization rules.

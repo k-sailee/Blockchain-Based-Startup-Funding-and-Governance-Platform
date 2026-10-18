@@ -13,6 +13,7 @@ import {
 
 import StakingPanel from "../components/StakingPanel";
 import YieldFarmPanel from "../components/YieldFarmPanel";
+import InvestorVaultPanel from "../components/InvestorVaultPanel";
 import "../index.css";
 
 function InvestorDashboard({ account, onBack }) {
@@ -716,6 +717,8 @@ function InvestorDashboard({ account, onBack }) {
 
         </section>
         )}
+
+        <InvestorVaultPanel account={account} />
 
       </main>
 
