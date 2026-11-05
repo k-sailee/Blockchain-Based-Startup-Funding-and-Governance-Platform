@@ -3741,4 +3741,4 @@ footer p {
  .status { color:#276749; }
  .error { color:#b42318; overflow-wrap:anywhere; }
  .history { font-family:monospace; font-size:.85rem; background:#f5f3fa; padding:.5rem; border-radius:6px; }
- @media (max-width:600px) { .lab-grid { grid-template-columns:1fr; } }`r`n
+ @media (max-width:600px) { .lab-grid { grid-template-columns:1fr; } }
