@@ -6,6 +6,7 @@ import {
   formatUnits,
   parseUnits,
 } from "ethers";
+import { getSelectedProvider } from "../walletManager";
 import { MOCK_TOKEN_ADDRESS, INVESTOR_VAULT_ADDRESS } from "../vaultConfig";
 import mockTokenArtifact from "../../../artifacts/contracts/MockToken.sol/MockToken.json";
 import vaultArtifact from "../../../artifacts/contracts/InvestorVault.sol/InvestorVault.json";
@@ -39,11 +40,11 @@ export default function InvestorVaultPanel({ account }) {
   const [showCalculation, setShowCalculation] = useState(false);
 
   async function getContracts() {
-    if (!window.ethereum) {
+    if (!getSelectedProvider()) {
       throw new Error("Please install or connect MetaMask.");
     }
 
-    const provider = new BrowserProvider(window.ethereum);
+    const provider = new BrowserProvider(getSelectedProvider());
     const network = await provider.getNetwork();
 
     if (network.chainId !== 1337n) {

@@ -54,6 +54,7 @@ Thumbs.db
 # Hardhat Ignition generated deployments
 # ==============================
 ignition/deployments/
+deployments/
 
 # ==============================
 # Temporary files

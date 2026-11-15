@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { BrowserProvider, Contract, formatEther, parseEther } from "ethers";
+import { getSelectedProvider } from "../walletManager";
 import {
   STAKING_CONTRACT_ADDRESS,
   STAKING_CONTRACT_ABI,
@@ -60,7 +61,7 @@ export default function StakingPanel({ account }) {
 
   // Load all staking and token balances
   async function loadStakingData() {
-    if (!window.ethereum || !account) return;
+    if (!getSelectedProvider() || !account) return;
     if (!STAKING_CONTRACT_ADDRESS || !ABC_TOKEN_ADDRESS || !RWD_TOKEN_ADDRESS) {
       setStatusMessage({
         type: "error",
@@ -70,7 +71,7 @@ export default function StakingPanel({ account }) {
     }
 
     try {
-      const provider = new BrowserProvider(window.ethereum);
+      const provider = new BrowserProvider(getSelectedProvider());
       const abcContract = new Contract(ABC_TOKEN_ADDRESS, ABC_TOKEN_ABI, provider);
       const rwdContract = new Contract(RWD_TOKEN_ADDRESS, RWD_TOKEN_ABI, provider);
       const stakingContract = new Contract(
@@ -100,9 +101,9 @@ export default function StakingPanel({ account }) {
 
   // Refresh pending reward ticker
   async function refreshPendingReward() {
-    if (!window.ethereum || !account || !STAKING_CONTRACT_ADDRESS) return;
+    if (!getSelectedProvider() || !account || !STAKING_CONTRACT_ADDRESS) return;
     try {
-      const provider = new BrowserProvider(window.ethereum);
+      const provider = new BrowserProvider(getSelectedProvider());
       const stakingContract = new Contract(
         STAKING_CONTRACT_ADDRESS,
         STAKING_CONTRACT_ABI,
@@ -140,7 +141,7 @@ export default function StakingPanel({ account }) {
       setActionLoading("approving");
       setStatusMessage(null);
 
-      const provider = new BrowserProvider(window.ethereum);
+      const provider = new BrowserProvider(getSelectedProvider());
       const signer = await provider.getSigner();
       const abcContract = new Contract(ABC_TOKEN_ADDRESS, ABC_TOKEN_ABI, signer);
 
@@ -197,7 +198,7 @@ export default function StakingPanel({ account }) {
       setActionLoading("staking");
       setStatusMessage(null);
 
-      const provider = new BrowserProvider(window.ethereum);
+      const provider = new BrowserProvider(getSelectedProvider());
       const signer = await provider.getSigner();
       const stakingContract = new Contract(
         STAKING_CONTRACT_ADDRESS,
@@ -266,7 +267,7 @@ async function handleUnstake() {
     setActionLoading("unstaking");
     setStatusMessage(null);
 
-    const provider = new BrowserProvider(window.ethereum);
+    const provider = new BrowserProvider(getSelectedProvider());
     const signer = await provider.getSigner();
 
     const stakingContract = new Contract(
@@ -370,7 +371,7 @@ async function handleUnstake() {
       setActionLoading("claiming");
       setStatusMessage(null);
 
-      const provider = new BrowserProvider(window.ethereum);
+      const provider = new BrowserProvider(getSelectedProvider());
       const signer = await provider.getSigner();
       const stakingContract = new Contract(
         STAKING_CONTRACT_ADDRESS,
@@ -425,7 +426,7 @@ async function handleUnstake() {
       setActionLoading("exiting");
       setStatusMessage(null);
 
-      const provider = new BrowserProvider(window.ethereum);
+      const provider = new BrowserProvider(getSelectedProvider());
       const signer = await provider.getSigner();
       const stakingContract = new Contract(
         STAKING_CONTRACT_ADDRESS,
@@ -490,7 +491,7 @@ const tx = await stakingContract.exit({ gasLimit });
       setActionLoading("faucet");
       setStatusMessage(null);
 
-      const provider = new BrowserProvider(window.ethereum);
+      const provider = new BrowserProvider(getSelectedProvider());
       const signer = await provider.getSigner();
       const abcContract = new Contract(ABC_TOKEN_ADDRESS, ABC_TOKEN_ABI, signer);
 

@@ -12,9 +12,11 @@
   "dependencies": {
     "@reown/appkit": "^1.8.23",
     "@reown/appkit-adapter-ethers": "^1.8.23",
+    "blockchain-based-startup-funding-and-governance-platform": "file:..",
     "ethers": "^6.17.0",
     "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "react-dom": "^19.2.8",
+    "viem": "^2.57.16"
   },
   "devDependencies": {
     "@types/react": "^19.2.17",

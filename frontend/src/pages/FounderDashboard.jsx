@@ -12,8 +12,13 @@ import {
 } from "../contractConfig";
 
 import "../index.css";
+import { getSelectedProvider } from "../walletManager";
+import OracleStatus from "../components/OracleStatus";
+import { formatUsdEstimate, useOracleData } from "../oracle/useOracleData";
+import StartupGovernanceStatus from "../components/dao/StartupGovernanceStatus";
 
-function FounderDashboard({ account, onBack, onConnect }) {
+function FounderDashboard({ account, onBack, onConnect, onDAO }) {
+  const { oracle } = useOracleData(account);
   const [startups, setStartups] = useState([]);
   const [loading, setLoading] = useState(true);
   const [otherStartupCount, setOtherStartupCount] = useState(0);
@@ -54,7 +59,7 @@ function FounderDashboard({ account, onBack, onConnect }) {
   // ---------------------------------------------------------
 
   async function loadStartups() {
-    if (!window.ethereum || !account) {
+    if (!getSelectedProvider() || !account) {
       setStartups([]);
       setOtherStartupCount(0);
       setLoading(false);
@@ -65,7 +70,7 @@ function FounderDashboard({ account, onBack, onConnect }) {
       setLoading(true);
 
       const provider = new BrowserProvider(
-        window.ethereum
+        getSelectedProvider()
       );
 
       const contract = new Contract(
@@ -176,7 +181,7 @@ function FounderDashboard({ account, onBack, onConnect }) {
 
       const provider =
         new BrowserProvider(
-          window.ethereum
+          getSelectedProvider()
         );
 
       const signer =
@@ -279,6 +284,7 @@ function FounderDashboard({ account, onBack, onConnect }) {
       {/* Main Dashboard */}
 
       <main className="dashboard-main">
+        <OracleStatus account={account} compact />
 
         {/* Header */}
 
@@ -307,6 +313,7 @@ function FounderDashboard({ account, onBack, onConnect }) {
           >
             ← Back
           </button>
+          <button className="back-btn" onClick={onDAO}>DAO Governance</button>
 
         </div>
 
@@ -586,6 +593,7 @@ function FounderDashboard({ account, onBack, onConnect }) {
                     <p className="startup-description">
                       {startup.description}
                     </p>
+                    <StartupGovernanceStatus startupId={startup.id} />
 
 
                     {/* Funding Information */}
@@ -603,6 +611,9 @@ function FounderDashboard({ account, onBack, onConnect }) {
                             startup.totalRaised
                           )} ETH
                         </strong>
+                        {oracle && (
+                          <small>≈ ${formatUsdEstimate(startup.totalRaised, oracle)} current USD estimate</small>
+                        )}
 
                       </div>
 
@@ -617,6 +628,9 @@ function FounderDashboard({ account, onBack, onConnect }) {
                             startup.fundingGoal
                           )} ETH
                         </strong>
+                        {oracle && (
+                          <small>≈ ${formatUsdEstimate(startup.fundingGoal, oracle)} current USD estimate</small>
+                        )}
 
                       </div>
 
@@ -710,6 +724,9 @@ function FounderDashboard({ account, onBack, onConnect }) {
                                   )}{" "}
                                   ETH
                                 </strong>
+                                {oracle && (
+                                  <small>≈ ${formatUsdEstimate(investment.amount, oracle)} current USD estimate</small>
+                                )}
 
                               </div>
 

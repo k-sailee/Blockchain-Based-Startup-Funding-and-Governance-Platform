@@ -15,8 +15,14 @@ import StakingPanel from "../components/StakingPanel";
 import YieldFarmPanel from "../components/YieldFarmPanel";
 import InvestorVaultPanel from "../components/InvestorVaultPanel";
 import "../index.css";
+import { getSelectedProvider } from "../walletManager";
+import OracleStatus from "../components/OracleStatus";
+import { formatUsdEstimate, useOracleData } from "../oracle/useOracleData";
+import StartupGovernanceStatus from "../components/dao/StartupGovernanceStatus";
+import InvestorGovernancePanel from "../components/dao/InvestorGovernancePanel";
 
-function InvestorDashboard({ account, onBack }) {
+function InvestorDashboard({ account, onBack, onDAO }) {
+  const { oracle } = useOracleData(account);
   const [startups, setStartups] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("startups");
@@ -59,7 +65,7 @@ function InvestorDashboard({ account, onBack }) {
   // ---------------------------------------------------------
 
   async function loadStartups() {
-    if (!window.ethereum || !account) {
+    if (!getSelectedProvider() || !account) {
       setLoading(false);
       return;
     }
@@ -70,7 +76,7 @@ function InvestorDashboard({ account, onBack }) {
 
       const provider =
         new BrowserProvider(
-          window.ethereum
+          getSelectedProvider()
         );
 
       const contract = new Contract(
@@ -195,7 +201,7 @@ function InvestorDashboard({ account, onBack }) {
 
       const provider =
         new BrowserProvider(
-          window.ethereum
+          getSelectedProvider()
         );
 
       const signer =
@@ -304,6 +310,7 @@ function InvestorDashboard({ account, onBack }) {
       {/* Main */}
 
       <main className="dashboard-main">
+        <OracleStatus account={account} compact />
 
         {/* Header */}
 
@@ -332,6 +339,7 @@ function InvestorDashboard({ account, onBack }) {
           >
             ← Back
           </button>
+          <button className="back-btn" onClick={onDAO}>DAO Governance</button>
 
         </div>
 
@@ -366,6 +374,8 @@ function InvestorDashboard({ account, onBack }) {
             ⚡ Protocol Staking (DeFi Part 2)
           </button>
         </div>
+
+        <InvestorGovernancePanel account={account} onOpenDAO={onDAO} />
 
         {activeTab === "yield-farm" ? (
           <YieldFarmPanel account={account} />
@@ -485,6 +495,7 @@ function InvestorDashboard({ account, onBack }) {
                     <p className="startup-description">
                       {startup.description}
                     </p>
+                    <StartupGovernanceStatus startupId={startup.id} />
 
 
                     {/* Founder */}
@@ -519,6 +530,9 @@ function InvestorDashboard({ account, onBack }) {
                             startup.totalRaised
                           )} ETH
                         </strong>
+                        {oracle && (
+                          <small>≈ ${formatUsdEstimate(startup.totalRaised, oracle)} current USD estimate</small>
+                        )}
 
                       </div>
 
@@ -533,6 +547,9 @@ function InvestorDashboard({ account, onBack }) {
                             startup.fundingGoal
                           )} ETH
                         </strong>
+                        {oracle && (
+                          <small>≈ ${formatUsdEstimate(startup.fundingGoal, oracle)} current USD estimate</small>
+                        )}
 
                       </div>
 
@@ -626,6 +643,9 @@ function InvestorDashboard({ account, onBack }) {
                                   )}{" "}
                                   ETH
                                 </strong>
+                                {oracle && (
+                                  <small>≈ ${formatUsdEstimate(investment.amount, oracle)} current USD estimate</small>
+                                )}
 
                               </div>
 

@@ -1,5 +1,5 @@
 import { network } from "hardhat";
-import { writeFileSync, mkdirSync } from "node:fs";
+import { writeFileSync, mkdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 const { ethers } = await network.create({
@@ -7,6 +7,12 @@ const { ethers } = await network.create({
   chainType: "l1",
 });
 const [deployer] = await ethers.getSigners();
+const deployerBalance = await ethers.provider.getBalance(deployer.address);
+if (deployerBalance === 0n) {
+  throw new Error(
+    `Ganache deployer ${deployer.address} has no ETH. Set GANACHE_PRIVATE_KEY in .env to a funded Ganache account, or fund this account in Ganache.`,
+  );
+}
 const weth = await ethers.deployContract("WETH9");
 const usdc = await ethers.deployContract("MockUSDC");
 const oracle = await ethers.deployContract("MockETHUSDOracle", [2500n * 10n ** 8n]);
@@ -22,6 +28,19 @@ const addresses = {
   MockETHUSDOracle: await oracle.getAddress(),
   SafeOracleReader: await reader.getAddress(),
 };
+const oracleArtifact = JSON.parse(readFileSync(join(process.cwd(), "artifacts/contracts/SafeOracleReader.sol/SafeOracleReader.json"), "utf8"));
+const mockArtifact = JSON.parse(readFileSync(join(process.cwd(), "artifacts/contracts/MockETHUSDOracle.sol/MockETHUSDOracle.json"), "utf8"));
 mkdirSync(join(process.cwd(), "frontend", "src"), { recursive: true });
-writeFileSync(join(process.cwd(), "frontend", "src", "dexConfig.js"), `export const DEX_CONFIG = ${JSON.stringify(addresses, null, 2)};\n`);
+writeFileSync(
+  join(process.cwd(), "frontend", "src", "dexConfig.js"),
+  `import SafeOracleReader from "./contracts/SafeOracleReader.json";\nimport MockETHUSDOracle from "./contracts/MockETHUSDOracle.json";\nexport const DEX_CONFIG = ${JSON.stringify(addresses, null, 2)};\nexport const SAFE_ORACLE_ABI = SafeOracleReader.abi;\nexport const MOCK_ORACLE_ABI = MockETHUSDOracle.abi;\n`,
+);
+writeFileSync(
+  join(process.cwd(), "frontend", "src", "contracts", "SafeOracleReader.json"),
+  JSON.stringify({ abi: oracleArtifact.abi }, null, 2),
+);
+writeFileSync(
+  join(process.cwd(), "frontend", "src", "contracts", "MockETHUSDOracle.json"),
+  JSON.stringify({ abi: mockArtifact.abi }, null, 2),
+);
 console.log(JSON.stringify(addresses, null, 2));

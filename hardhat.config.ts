@@ -1,5 +1,14 @@
+import "dotenv/config";
 import hardhatToolboxMochaEthersPlugin from "@nomicfoundation/hardhat-toolbox-mocha-ethers";
 import { configVariable, defineConfig } from "hardhat/config";
+
+const normalizePrivateKey = (value: string | undefined) => {
+  if (!value) return undefined;
+  return value.startsWith("0x") ? value : `0x${value}`;
+};
+
+const ganachePrivateKey = normalizePrivateKey(process.env.GANACHE_PRIVATE_KEY);
+const sepoliaPrivateKey = normalizePrivateKey(process.env.SEPOLIA_PRIVATE_KEY);
 
 export default defineConfig({
   plugins: [hardhatToolboxMochaEthersPlugin],
@@ -37,16 +46,18 @@ export default defineConfig({
     type: "http",
     chainType: "l1",
     url: "http://127.0.0.1:7545",
-    accounts: [
-      "0x1b71111a7891bab3c678188644ac96b0ba1fd7f632d1036e7febf431f3182bbb"
-    ],
+    accounts: ganachePrivateKey
+      ? [ganachePrivateKey]
+      : [],
   },
 
   sepolia: {
     type: "http",
     chainType: "l1",
     url: configVariable("SEPOLIA_RPC_URL"),
-    accounts: [configVariable("SEPOLIA_PRIVATE_KEY")],
+    accounts: sepoliaPrivateKey
+      ? [sepoliaPrivateKey]
+      : [configVariable("SEPOLIA_PRIVATE_KEY")],
   },
 },
 });

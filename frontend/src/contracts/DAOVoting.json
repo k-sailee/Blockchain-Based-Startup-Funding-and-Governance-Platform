@@ -1,0 +1,434 @@
+{
+  "abi": [
+    {
+      "type": "constructor",
+      "stateMutability": "undefined",
+      "payable": false,
+      "inputs": [
+        {
+          "type": "address",
+          "name": "tokenAddress"
+        }
+      ]
+    },
+    {
+      "type": "error",
+      "name": "AlreadyVoted",
+      "inputs": []
+    },
+    {
+      "type": "error",
+      "name": "InvalidProposal",
+      "inputs": []
+    },
+    {
+      "type": "error",
+      "name": "InvalidToken",
+      "inputs": []
+    },
+    {
+      "type": "error",
+      "name": "NoVotingPower",
+      "inputs": []
+    },
+    {
+      "type": "error",
+      "name": "ProposalDoesNotExist",
+      "inputs": []
+    },
+    {
+      "type": "error",
+      "name": "ProposalThresholdNotMet",
+      "inputs": []
+    },
+    {
+      "type": "error",
+      "name": "VotingClosed",
+      "inputs": []
+    },
+    {
+      "type": "error",
+      "name": "VotingNotStarted",
+      "inputs": []
+    },
+    {
+      "type": "event",
+      "anonymous": false,
+      "name": "ProposalCreated",
+      "inputs": [
+        {
+          "type": "uint256",
+          "name": "proposalId",
+          "indexed": true
+        },
+        {
+          "type": "address",
+          "name": "proposer",
+          "indexed": true
+        },
+        {
+          "type": "uint256",
+          "name": "startupId",
+          "indexed": true
+        },
+        {
+          "type": "uint256",
+          "name": "endBlock",
+          "indexed": false
+        }
+      ]
+    },
+    {
+      "type": "event",
+      "anonymous": false,
+      "name": "VoteCast",
+      "inputs": [
+        {
+          "type": "uint256",
+          "name": "proposalId",
+          "indexed": true
+        },
+        {
+          "type": "address",
+          "name": "voter",
+          "indexed": true
+        },
+        {
+          "type": "bool",
+          "name": "support",
+          "indexed": false
+        },
+        {
+          "type": "uint256",
+          "name": "weight",
+          "indexed": false
+        }
+      ]
+    },
+    {
+      "type": "function",
+      "name": "MINIMUM_QUORUM",
+      "constant": true,
+      "stateMutability": "view",
+      "payable": false,
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "uint256",
+          "name": ""
+        }
+      ]
+    },
+    {
+      "type": "function",
+      "name": "PROPOSAL_THRESHOLD",
+      "constant": true,
+      "stateMutability": "view",
+      "payable": false,
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "uint256",
+          "name": ""
+        }
+      ]
+    },
+    {
+      "type": "function",
+      "name": "QUORUM_PERCENT",
+      "constant": true,
+      "stateMutability": "view",
+      "payable": false,
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "uint256",
+          "name": ""
+        }
+      ]
+    },
+    {
+      "type": "function",
+      "name": "VOTING_PERIOD",
+      "constant": true,
+      "stateMutability": "view",
+      "payable": false,
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "uint256",
+          "name": ""
+        }
+      ]
+    },
+    {
+      "type": "function",
+      "name": "castVote",
+      "constant": false,
+      "payable": false,
+      "inputs": [
+        {
+          "type": "uint256",
+          "name": "proposalId"
+        },
+        {
+          "type": "bool",
+          "name": "support"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "type": "function",
+      "name": "getProposal",
+      "constant": true,
+      "stateMutability": "view",
+      "payable": false,
+      "inputs": [
+        {
+          "type": "uint256",
+          "name": "proposalId"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "tuple",
+          "name": "",
+          "components": [
+            {
+              "type": "uint256",
+              "name": "id"
+            },
+            {
+              "type": "string",
+              "name": "title"
+            },
+            {
+              "type": "string",
+              "name": "description"
+            },
+            {
+              "type": "string",
+              "name": "category"
+            },
+            {
+              "type": "uint256",
+              "name": "startupId"
+            },
+            {
+              "type": "uint256",
+              "name": "fundingAmount"
+            },
+            {
+              "type": "address",
+              "name": "proposer"
+            },
+            {
+              "type": "uint256",
+              "name": "snapshotBlock"
+            },
+            {
+              "type": "uint256",
+              "name": "endBlock"
+            },
+            {
+              "type": "uint256",
+              "name": "createdAt"
+            },
+            {
+              "type": "uint256",
+              "name": "forVotes"
+            },
+            {
+              "type": "uint256",
+              "name": "againstVotes"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "function",
+      "name": "getProposalCount",
+      "constant": true,
+      "stateMutability": "view",
+      "payable": false,
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "uint256",
+          "name": ""
+        }
+      ]
+    },
+    {
+      "type": "function",
+      "name": "getProposalThreshold",
+      "constant": true,
+      "stateMutability": "pure",
+      "payable": false,
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "uint256",
+          "name": ""
+        }
+      ]
+    },
+    {
+      "type": "function",
+      "name": "getProposalVotes",
+      "constant": true,
+      "stateMutability": "view",
+      "payable": false,
+      "inputs": [
+        {
+          "type": "uint256",
+          "name": "proposalId"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "uint256",
+          "name": "againstVotes"
+        },
+        {
+          "type": "uint256",
+          "name": "forVotes"
+        }
+      ]
+    },
+    {
+      "type": "function",
+      "name": "getQuorum",
+      "constant": true,
+      "stateMutability": "view",
+      "payable": false,
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "uint256",
+          "name": ""
+        }
+      ]
+    },
+    {
+      "type": "function",
+      "name": "getVotingPeriod",
+      "constant": true,
+      "stateMutability": "pure",
+      "payable": false,
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "uint256",
+          "name": ""
+        }
+      ]
+    },
+    {
+      "type": "function",
+      "name": "hasVoted",
+      "constant": true,
+      "stateMutability": "view",
+      "payable": false,
+      "inputs": [
+        {
+          "type": "uint256",
+          "name": "proposalId"
+        },
+        {
+          "type": "address",
+          "name": "voter"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "bool",
+          "name": ""
+        }
+      ]
+    },
+    {
+      "type": "function",
+      "name": "propose",
+      "constant": false,
+      "payable": false,
+      "inputs": [
+        {
+          "type": "string",
+          "name": "description"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "uint256",
+          "name": ""
+        }
+      ]
+    },
+    {
+      "type": "function",
+      "name": "proposeFunding",
+      "constant": false,
+      "payable": false,
+      "inputs": [
+        {
+          "type": "uint256",
+          "name": "startupId"
+        },
+        {
+          "type": "uint256",
+          "name": "fundingAmount"
+        },
+        {
+          "type": "string",
+          "name": "title"
+        },
+        {
+          "type": "string",
+          "name": "description"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "uint256",
+          "name": ""
+        }
+      ]
+    },
+    {
+      "type": "function",
+      "name": "state",
+      "constant": true,
+      "stateMutability": "view",
+      "payable": false,
+      "inputs": [
+        {
+          "type": "uint256",
+          "name": "proposalId"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "uint8",
+          "name": ""
+        }
+      ]
+    },
+    {
+      "type": "function",
+      "name": "token",
+      "constant": true,
+      "stateMutability": "view",
+      "payable": false,
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "address",
+          "name": ""
+        }
+      ]
+    }
+  ]
+}

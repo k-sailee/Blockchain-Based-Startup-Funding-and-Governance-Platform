@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
+interface IUsdOracle {
+    function ethToUsd(uint256 weiAmount) external view returns (uint256);
+}
+
 contract StartupFunding {
 
     // =========================================================
@@ -237,5 +241,20 @@ contract StartupFunding {
             investment.investor,
             investment.amount
         );
+    }
+
+    /// @notice Returns a live USD valuation with 18 decimals.
+    /// @dev This is informational only and never affects ETH funding rules.
+    function getStartupUsdValue(
+        uint256 _startupId,
+        IUsdOracle oracle
+    ) external view returns (uint256 fundingGoalUsd, uint256 totalRaisedUsd) {
+        require(
+            _startupId > 0 && _startupId <= startupCount,
+            "Startup does not exist"
+        );
+        Startup storage startup = startups[_startupId];
+        fundingGoalUsd = oracle.ethToUsd(startup.fundingGoal);
+        totalRaisedUsd = oracle.ethToUsd(startup.totalRaised);
     }
 }

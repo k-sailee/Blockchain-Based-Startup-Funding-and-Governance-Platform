@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { ethers } from "ethers";
 import fs from "fs";
 import path from "path";
@@ -5,9 +6,9 @@ import path from "path";
 const rpcUrl = "http://127.0.0.1:7545";
 const provider = new ethers.JsonRpcProvider(rpcUrl);
 
-// Ganache default deployer private key
-const deployerPrivateKey = "0x94f1bd2634b82458be816d47c2a394974313ba653adf0ae0f67456735f8874cb";
-const wallet = new ethers.Wallet(deployerPrivateKey, provider);
+const deployerPrivateKey = process.env.GANACHE_PRIVATE_KEY;
+if (!deployerPrivateKey) throw new Error("Set GANACHE_PRIVATE_KEY in the local environment before running this script.");
+const wallet = new ethers.Wallet(deployerPrivateKey.startsWith("0x") ? deployerPrivateKey : `0x${deployerPrivateKey}`, provider);
 
 // Load deployed addresses from frontend/src/yieldFarmConfig.js
 const configPath = path.resolve("frontend/src/yieldFarmConfig.js");

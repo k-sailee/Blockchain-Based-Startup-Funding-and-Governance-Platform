@@ -4,13 +4,17 @@ import { EthersAdapter } from "@reown/appkit-adapter-ethers";
 
 const projectId = import.meta.env.VITE_WALLETCONNECT_PROJECT_ID;
 
-if (!projectId) {
-  throw new Error(
-    "Missing VITE_WALLETCONNECT_PROJECT_ID in frontend/.env.local"
-  );
-}
+export const walletConnectEnabled = Boolean(projectId);
 
 const networks = [
+  {
+    id: 1337,
+    caipNetworkId: "eip155:1337",
+    chainNamespace: "eip155",
+    name: "Ganache",
+    nativeCurrency: { decimals: 18, name: "Ganache Ether", symbol: "ETH" },
+    rpcUrls: { default: { http: ["http://127.0.0.1:7545"] } },
+  },
   {
     id: 11155111,
     caipNetworkId: "eip155:11155111",
@@ -35,17 +39,19 @@ const networks = [
   },
 ];
 
-createAppKit({
-  adapters: [new EthersAdapter()],
-  networks,
-  projectId,
-  metadata: {
-    name: "StartFund",
-    description: "Decentralized Startup Funding",
-    url: window.location.origin,
-    icons: [],
-  },
-  features: {
-    analytics: false,
-  },
-});
+if (walletConnectEnabled) {
+  createAppKit({
+    adapters: [new EthersAdapter()],
+    networks,
+    projectId,
+    metadata: {
+      name: "StartFund",
+      description: "Decentralized Startup Funding",
+      url: window.location.origin,
+      icons: [],
+    },
+    features: {
+      analytics: false,
+    },
+  });
+}

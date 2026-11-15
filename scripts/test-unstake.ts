@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { ethers } from "ethers";
 
 const provider = new ethers.JsonRpcProvider(
@@ -6,6 +7,8 @@ const provider = new ethers.JsonRpcProvider(
 
 const account = "0xA10989ad0b6e9BcA41693Fd588217010A5375ace";
 const stakingAddress = "0x6dD510eCb840bDbB707eACa9dC937ef305d12aB3";
+const privateKey = process.env.GANACHE_PRIVATE_KEY;
+if (!privateKey) throw new Error("Set GANACHE_PRIVATE_KEY in the local environment before running this script.");
 
 const stakingAbi = [
   "function unstake(uint256 amount)",
@@ -14,7 +17,7 @@ const stakingAbi = [
 
 async function main() {
   const signer = new ethers.Wallet(
-    "0x94f1bd2634b82458be816d47c2a394974313ba653adf0ae0f67456735f8874cb",
+    privateKey.startsWith("0x") ? privateKey : `0x${privateKey}`,
     provider
   );
 

@@ -1,4 +1,103 @@
-﻿# Blockchain-Based Startup Funding and Governance Platform
+# Blockchain-Based Startup Funding and Governance Platform
+
+## Experiment 7 - Chainlink Price Feed Oracle Integration
+
+### Aim and objectives
+
+Experiment 7 adds a network-aware ETH/USD reference-price layer while preserving
+the existing ETH-denominated funding rules and reserve-based AMM execution.
+Ganache uses the existing `MockETHUSDOracle`; Sepolia uses the official Chainlink
+ETH/USD feed at `0x694AA1769357215DE4FAC081bf1f309aDC325306`.
+
+### Architecture
+
+```mermaid
+flowchart LR
+  Wallet --> Frontend[React Oracle Dashboard]
+  Frontend --> Reader[SafeOracleReader]
+  Reader --> Ganache[MockETHUSDOracle]
+  Reader --> Chainlink[Chainlink ETH/USD Feed]
+  Frontend --> Funding[StartupFunding]
+  Frontend --> AMM[AMMPool reserve pricing]
+```
+
+`SafeOracleReader` validates positive prices, timestamps, freshness, and feed
+decimals. Its `ethToUsd` result uses 18 decimal USD precision. Oracle reads are
+informational and do not gate `StartupFunding.invest` or alter AMM swaps.
+
+### Environment and commands
+
+Copy `.env.example` to `.env` and set Sepolia values only for a real deployment:
+
+```powershell
+npm install
+npx hardhat build
+npx hardhat test
+```
+
+For Ganache, start Ganache on `http://127.0.0.1:7545`, then run:
+
+```powershell
+npx hardhat run scripts/deployDEX.ts --network ganache
+```
+
+For Sepolia, provide a funded test account and run:
+
+```powershell
+npx hardhat run scripts/deployChainlink.ts --network sepolia
+npx hardhat run scripts/checkOracle.ts --network sepolia
+```
+
+The Sepolia script writes `deployments/sepolia-chainlink.json`; it never
+overwrites the Ganache DEX configuration. A Sepolia deployment is successful
+only after the deployment transaction is mined and the script reads valid feed
+data from the deployed reader.
+
+Run the frontend with:
+
+```powershell
+cd frontend
+npm install
+npm run build
+npm run dev
+```
+
+The frontend selects the reader by wallet chain ID:
+
+- Ganache (`1337`): the deployed mock reader in `frontend/src/dexConfig.js`.
+- Sepolia (`11155111`): `0x9e78cDB124703E57686E9363D3B152E2cE99e1f8`.
+
+`VITE_SEPOLIA_ORACLE_READER_ADDRESS` may override the verified Sepolia address,
+and `VITE_SEPOLIA_STARTUP_FUNDING_ADDRESS` enables the optional Sepolia funding
+screen when a real deployment address is available. Do not commit `.env` files
+or private keys.
+
+### Frontend dashboard features
+
+The Oracle Dashboard reads the current ETH/USD price, feed description,
+decimals, update time, data age, and freshness from `SafeOracleReader`. Founder
+and investor screens show current-price USD estimates alongside ETH amounts;
+these are not historical investment valuations. Oracle errors are displayed
+without blocking ETH funding.
+
+DEX screens continue to calculate swaps and liquidity from AMM reserves. The
+Chainlink value is shown only as a reference price and, where comparable, a
+deviation percentage. It never replaces AMM execution pricing. Unsupported
+networks, disconnected wallets, stale data, unavailable readers, and RPC
+failures are surfaced as UI states.
+
+### Testing and limitations
+
+The oracle tests use a local `MockAggregatorV3`; they do not depend on network
+access. They cover valid data, precision, stale/future/zero/negative values,
+invalid feed configuration, and conversion. Existing DEX, funding, vault,
+staking, and yield-farm tests remain part of the full suite.
+
+Compilation and tests do not constitute a production security audit. Remaining
+requirements include independent contract review, monitored oracle parameters,
+deployment verification, funded testnet testing, and production operational
+controls. Current USD values are live reference valuations, not historical
+investment prices.
 
 A decentralized Web3 platform enabling startup crowdfunding, DAO-based governance, and simulated decentralized finance (DeFi) mechanisms including **Protocol Token Staking** and **LP Token Yield Farming**.
 
@@ -7,7 +106,7 @@ A decentralized Web3 platform enabling startup crowdfunding, DAO-based governanc
 ## Table of Contents
 
 1. [Platform Overview](#platform-overview)
-2. [DeFi Experiment 5 — Part 1: LP Token Yield Farming](#defi-experiment-5--part-1-lp-token-yield-farming)
+2. [DeFi Experiment 5 � Part 1: LP Token Yield Farming](#defi-experiment-5--part-1-lp-token-yield-farming)
    - [What Yield Farming Simulates](#what-yield-farming-simulates)
    - [Difference Between LPT Staking and Protocol-Token Staking](#difference-between-lpt-staking-and-protocol-token-staking)
    - [Farming Rewards vs AMM Trading Fees vs Impermanent Loss](#farming-rewards-vs-amm-trading-fees-vs-impermanent-loss)
@@ -28,7 +127,7 @@ Blockchain-Based Startup Funding and Governance Platform combines decentralized 
 
 ---
 
-## DeFi Experiment 5 — Part 1: LP Token Yield Farming
+## DeFi Experiment 5 � Part 1: LP Token Yield Farming
 
 ### What Yield Farming Simulates
 
@@ -70,7 +169,7 @@ In a production DeFi ecosystem with Automated Market Makers (e.g., Uniswap, Sush
 ### Contract Architecture
 
 Part 1 consists of two Solidity source files:
-- `contracts/MockERC20.sol`: Deployed twice — once for `LP Token` (`LPT`) and once for `Reward Token` (`RWD`).
+- `contracts/MockERC20.sol`: Deployed twice � once for `LP Token` (`LPT`) and once for `Reward Token` (`RWD`).
 - `contracts/SimpleYieldFarm.sol`: Manages staking, balance updates, reward calculation, harvesting, and withdrawals.
 
 #### SimpleYieldFarm State and Mappings:
@@ -139,8 +238,7 @@ This script:
    - **RPC URL**: `http://127.0.0.1:7545`
    - **Chain ID**: `1337`
    - **Currency Symbol**: `ETH`
-2. Import the deployer test account private key into MetaMask:
-   - Private Key: `0x94f1bd2634b82458be816d47c2a394974313ba653adf0ae0f67456735f8874cb`
+2. Import a local Ganache test account into MetaMask through Ganache's account UI. Keep private keys in ignored environment files.
    - Account Address: `0xA10989ad0b6e9BcA41693Fd588217010A5375ace`
 3. In MetaMask, import the custom ERC-20 tokens:
    - **LP Token (LPT)**: Address printed in `frontend/src/yieldFarmConfig.js`
@@ -172,10 +270,10 @@ The test suite includes:
    ```
 2. Open the application in your browser (e.g., `http://localhost:5173`).
 3. Connect MetaMask to the local Ganache network (`1337`).
-4. Click **I'm an Investor →**.
-5. In the top subnav, click **🌾 Yield Farming (DeFi Part 1)**.
+4. Click **I'm an Investor ?**.
+5. In the top subnav, click **?? Yield Farming (DeFi Part 1)**.
 6. Actions available:
-   - **Faucet**: Click `🌾 Faucet: Get 100 LPT` to mint test LPT.
+   - **Faucet**: Click `?? Faucet: Get 100 LPT` to mint test LPT.
    - **Approve**: Enter amount to stake, then click `Step 1: Approve LPT`.
    - **Stake**: Once approved, click `Stake LPT`. Observe rewards accumulating live in real time.
    - **Harvest Rewards**: Click `Harvest Rewards (X.XXXX RWD)` to claim your accumulated RWD without unstaking.
@@ -294,3 +392,22 @@ is part of this demonstration. The current safe scope keeps direct ETH startup
 funding separate from the sfUSD vault. A startup investment/return adapter is
 not enabled, because moving sfUSD out of the vault would require additional
 asset-liability accounting and authorization rules.
+
+## DAO governance (Experiment 8)
+
+StartFund now includes a fixed-supply `GovernanceToken` (CDT) and snapshot-based
+`DAOVoting` contract. Governance approval records proposal status only; it does
+not transfer ETH or mark a startup funded. See [DAO implementation](docs/DAO_IMPLEMENTATION.md),
+[architecture](docs/DAO_ARCHITECTURE.md), [deployment](docs/DAO_DEPLOYMENT.md),
+and the [Experiment 8 test report](docs/DAO_TEST_REPORT.md).
+
+Run `npx hardhat test mocha` to run all contract integration tests, including
+the nine Experiment 8 cases. Deploy to the configured local Ganache network
+with `npx hardhat run scripts/deployDAO.ts --network ganache`. The DAO script
+writes a separate network manifest and frontend ABIs; set
+`VITE_DAO_TOKEN_ADDRESS`, `VITE_DAO_VOTING_ADDRESS`, and
+`VITE_DAO_CHAIN_ID` from that manifest in the frontend environment. Do not
+reuse addresses across networks. CDT allocations are administrator-controlled;
+ETH investments never automatically grant governance tokens. Each holder must
+delegate before their tokens count as voting power.
+

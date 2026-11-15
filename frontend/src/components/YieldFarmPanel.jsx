@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { BrowserProvider, Contract, formatEther, parseEther } from "ethers";
+import { getSelectedProvider } from "../walletManager";
 import {
   YIELD_FARM_CONTRACT_ADDRESS,
   YIELD_FARM_CONTRACT_ABI,
@@ -60,7 +61,7 @@ export default function YieldFarmPanel({ account }) {
 
   // Load all yield farm and token balances
   async function loadYieldFarmData() {
-    if (!window.ethereum || !account) return;
+    if (!getSelectedProvider() || !account) return;
     if (!YIELD_FARM_CONTRACT_ADDRESS || !LPT_TOKEN_ADDRESS || !RWD_TOKEN_ADDRESS) {
       setStatusMessage({
         type: "error",
@@ -70,7 +71,7 @@ export default function YieldFarmPanel({ account }) {
     }
 
     try {
-      const provider = new BrowserProvider(window.ethereum);
+      const provider = new BrowserProvider(getSelectedProvider());
       const lptContract = new Contract(LPT_TOKEN_ADDRESS, LPT_TOKEN_ABI, provider);
       const rwdContract = new Contract(RWD_TOKEN_ADDRESS, RWD_TOKEN_ABI, provider);
       const farmContract = new Contract(
@@ -100,9 +101,9 @@ export default function YieldFarmPanel({ account }) {
 
   // Refresh pending reward ticker
   async function refreshPendingReward() {
-    if (!window.ethereum || !account || !YIELD_FARM_CONTRACT_ADDRESS) return;
+    if (!getSelectedProvider() || !account || !YIELD_FARM_CONTRACT_ADDRESS) return;
     try {
-      const provider = new BrowserProvider(window.ethereum);
+      const provider = new BrowserProvider(getSelectedProvider());
       const farmContract = new Contract(
         YIELD_FARM_CONTRACT_ADDRESS,
         YIELD_FARM_CONTRACT_ABI,
@@ -140,7 +141,7 @@ export default function YieldFarmPanel({ account }) {
       setActionLoading("approving");
       setStatusMessage(null);
 
-      const provider = new BrowserProvider(window.ethereum);
+      const provider = new BrowserProvider(getSelectedProvider());
       const signer = await provider.getSigner();
       const lptContract = new Contract(LPT_TOKEN_ADDRESS, LPT_TOKEN_ABI, signer);
 
@@ -200,7 +201,7 @@ export default function YieldFarmPanel({ account }) {
       setActionLoading("staking");
       setStatusMessage(null);
 
-      const provider = new BrowserProvider(window.ethereum);
+      const provider = new BrowserProvider(getSelectedProvider());
       const signer = await provider.getSigner();
       const farmContract = new Contract(
         YIELD_FARM_CONTRACT_ADDRESS,
@@ -283,7 +284,7 @@ export default function YieldFarmPanel({ account }) {
       setActionLoading("withdrawing");
       setStatusMessage(null);
 
-      const provider = new BrowserProvider(window.ethereum);
+      const provider = new BrowserProvider(getSelectedProvider());
       const signer = await provider.getSigner();
       const farmContract = new Contract(
         YIELD_FARM_CONTRACT_ADDRESS,
@@ -371,7 +372,7 @@ export default function YieldFarmPanel({ account }) {
       setActionLoading("harvesting");
       setStatusMessage(null);
 
-      const provider = new BrowserProvider(window.ethereum);
+      const provider = new BrowserProvider(getSelectedProvider());
       const signer = await provider.getSigner();
       const farmContract = new Contract(
         YIELD_FARM_CONTRACT_ADDRESS,
@@ -441,7 +442,7 @@ export default function YieldFarmPanel({ account }) {
       setActionLoading("exiting");
       setStatusMessage(null);
 
-      const provider = new BrowserProvider(window.ethereum);
+      const provider = new BrowserProvider(getSelectedProvider());
       const signer = await provider.getSigner();
       const farmContract = new Contract(
         YIELD_FARM_CONTRACT_ADDRESS,
@@ -511,7 +512,7 @@ export default function YieldFarmPanel({ account }) {
       setActionLoading("faucet");
       setStatusMessage(null);
 
-      const provider = new BrowserProvider(window.ethereum);
+      const provider = new BrowserProvider(getSelectedProvider());
       const signer = await provider.getSigner();
       const lptContract = new Contract(LPT_TOKEN_ADDRESS, LPT_TOKEN_ABI, signer);
 
